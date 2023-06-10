@@ -9,7 +9,9 @@ pub mod maily {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let mut client = MailyClient::connect("http://0.0.0.0:50051").await?;
+    dotenv::dotenv()?;
+    
+    let mut client = MailyClient::connect(format!("http://{}", dotenv::var("ADDRESS")?)).await?;
 
     let request = tonic::Request::new(SendRequest {
         to: "hinomegnome@gmail.com".to_string(),

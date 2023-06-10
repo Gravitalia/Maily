@@ -19,14 +19,21 @@ impl Maily for Mail {
     ) -> Result<Response<SendReply>, Status> {
         let body = request.into_inner();
 
-        println!("{:?}", body);
-
-        let reply = SendReply {
-            message: "".to_string(),
-            error: false,
-        };
-
-        Ok(Response::new(reply))
+        match smtp::send_mail(body.to, body.subject, body.content) {
+            Ok(_) => {
+                Ok(Response::new(SendReply {
+                    message: "Email sent".to_string(),
+                    error: false,
+                }))
+            },
+            Err(e) => {
+                eprintln!("{}", e);
+                Ok(Response::new(SendReply {
+                    message: e.to_string(),
+                    error: true,
+                }))
+            }
+        }
     }
 }
 
@@ -34,7 +41,7 @@ impl Maily for Mail {
 async fn main() -> Result<()> {
     dotenv::dotenv()?;
 
-    let addr = format!("0.0.0.0:{}", dotenv::var("PORT")?).parse()?;
+    let addr = dotenv::var("ADDRESS")?.parse()?;
 
     println!("Server listening on {}", addr);
     Server::builder()
