@@ -34,4 +34,4 @@ anyhow = "1.0.71"
 dotenv = "0.15.0"
 
 [build-dependencies]
-tonic-build = { version = "0.9.2", features = [ "prost" ] }
+tonic-build = { version = "0.10.2", features = [ "prost" ] }
