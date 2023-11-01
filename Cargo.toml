@@ -29,7 +29,7 @@ tokio = { version = "1.28.2", features = [ "rt-multi-thread", "time", "fs", "mac
 prost = "0.11.9"
 prost-types = "0.11.9"
 
-lettre = "0.10.4"
+lettre = "0.11.1"
 anyhow = "1.0.71"
 dotenv = "0.15.0"
 
